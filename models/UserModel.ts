@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { transform } from "typescript";
 
 
 export interface IUserModel extends mongoose.Document {
@@ -18,11 +19,12 @@ const UserSchema = new mongoose.Schema<IUserModel>({
     fullName: { type: String, required: true },
     username: { type: String, required: true },
     location: String,
-    password: { type: String, required: true },
+    password: { type: String, required: true, select: false },
     confirmed: { type: Boolean, default: false },
-    confirmHash: { type: String, required: true },
+    confirmHash: { type: String, required: true, select: false },
     about: String,
     website: String
 })
+
 
 export const UserModel = mongoose.model<IUserModel>("User", UserSchema)
