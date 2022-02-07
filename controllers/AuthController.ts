@@ -25,7 +25,7 @@ class AuthController {
             } else {
                 user.confirmed = true
                 await user.save()
-                res.json({ status: "success" })
+                res.redirect("http://localhost:3000/home")
             }
 
 
@@ -46,7 +46,7 @@ class AuthController {
             const { email, fullName, username, password } = req.body
             const condidate = await UserModel.findOne({ email })
             if (condidate) {
-                res.json({ message: 'Пользователь с таким email уже существует' })
+                res.status(400).json({ message: 'Пользователь с таким email уже существует' })
                 return
             }
 
@@ -56,7 +56,7 @@ class AuthController {
                 { email, fullName, username, password: hashedPassword, confirmHash }
             )
             await sendActivationLink(email, `http://localhost:8888/auth/verify/${confirmHash}`)
-            res.json({ status: "success", data: user })
+            res.status(201).json({ status: "success", data: user })
 
 
         } catch (err) {
@@ -68,18 +68,22 @@ class AuthController {
 
     async afterLogin(req: express.Request, res: express.Response): Promise<void> {
         try {
-            const user = req.user
+            const user = req.user as IUserModel
 
-            res.json({
-                status: "success",
-                data: {
-                    ...user,
-                    token: jwt.sign({ data: req.user }, "s3cr3t", { expiresIn: "30d" })
-                }
-            })
+            if (user) {
+                res.json({
+                    status: "success",
+                    data: {
+                        user: user,
+                        token: jwt.sign({ data: req.user }, "s3cr3t", { expiresIn: "30d" })
+                    }
+                })
+                return
+            }
 
+            res.status(400).send()
         } catch (err) {
-            res.status(500).json({ status: 'error', message: err })
+            res.status(500).json({ status: 'error', message: "fffa" })
         }
     }
 
@@ -92,6 +96,7 @@ class AuthController {
                     status: "success",
                     data: user
                 })
+                return
             }
 
             res.status(404).json("User not found")

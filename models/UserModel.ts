@@ -1,8 +1,9 @@
-import mongoose from "mongoose";
+import mongoose, { ObjectId, Schema, Types } from "mongoose";
 import { transform } from "typescript";
 
 
 export interface IUserModel extends mongoose.Document {
+    _id?: Types.ObjectId,
     email: string
     fullName: string
     username: string
@@ -12,6 +13,8 @@ export interface IUserModel extends mongoose.Document {
     confirmHash: string
     about: string
     website: string
+    tweets: string[]
+    likes?: string[]
 }
 
 const UserSchema = new mongoose.Schema<IUserModel>({
@@ -19,11 +22,15 @@ const UserSchema = new mongoose.Schema<IUserModel>({
     fullName: { type: String, required: true },
     username: { type: String, required: true },
     location: String,
-    password: { type: String, required: true, select: false },
+    password: { type: String, required: true },
     confirmed: { type: Boolean, default: false },
-    confirmHash: { type: String, required: true, select: false },
+    confirmHash: { type: String, required: true },
     about: String,
-    website: String
+    website: String,
+    tweets: [{ type: Schema.Types.ObjectId, ref: "Tweet" }],
+    likes: [{ type: Schema.Types.ObjectId, ref: "Tweet" }]
+}, {
+    timestamps: true
 })
 
 

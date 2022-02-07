@@ -20,7 +20,7 @@ passport.use(new LocalStrategy(
             }
 
         } catch (err) {
-            done(null, err)
+            return done(null, err)
         }
     }
 ))
@@ -41,7 +41,7 @@ passport.use(new JWTStrategy({
             return done(null, user)
 
         } catch (err) {
-            done(null, err)
+            return done(null, err)
         }
     }
 ))
