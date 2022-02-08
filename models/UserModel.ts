@@ -15,6 +15,7 @@ export interface IUserModel extends mongoose.Document {
     website: string
     tweets: string[]
     likes?: string[]
+    avatarUrl: string
 }
 
 const UserSchema = new mongoose.Schema<IUserModel>({
@@ -28,7 +29,8 @@ const UserSchema = new mongoose.Schema<IUserModel>({
     about: String,
     website: String,
     tweets: [{ type: Schema.Types.ObjectId, ref: "Tweet" }],
-    likes: [{ type: Schema.Types.ObjectId, ref: "Tweet" }]
+    likes: [{ type: Schema.Types.ObjectId, ref: "Tweet" }],
+    avatarUrl: String
 }, {
     timestamps: true
 })

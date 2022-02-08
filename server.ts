@@ -10,6 +10,7 @@ import { tweetsRouter } from "./routers/tweets";
 import cookieParser from "cookie-parser"
 import { passport } from "./core/passport";
 import { uploadRouter } from "./routers/upload";
+import { profileRouter } from "./routers/profile";
 
 dotenv.config()
 
@@ -25,7 +26,7 @@ app.use("/users", usersRouter)
 app.use("/auth", authRouter)
 app.use("/tweets", tweetsRouter)
 app.use("/upload", uploadRouter)
-
+app.use("/profile", profileRouter)
 
 
 

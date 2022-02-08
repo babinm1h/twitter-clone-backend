@@ -23,8 +23,10 @@ export const fileFilter = (req: express.Request, file: Express.Multer.File, cb: 
 const upload = multer({ storage, fileFilter })
 
 
-/////////
+//////////////////////
 uploadRouter.post("/", upload.single("image"), UploadFilesController.upload)
+
+uploadRouter.post("/ava", passport.authenticate("jwt"), upload.single("avatar"), UploadFilesController.uploadAvatar)
 
 
 
