@@ -11,6 +11,7 @@ import cookieParser from "cookie-parser"
 import { passport } from "./core/passport";
 import { uploadRouter } from "./routers/upload";
 import { profileRouter } from "./routers/profile";
+import { followRouter } from "./routers/follow";
 
 dotenv.config()
 
@@ -27,7 +28,7 @@ app.use("/auth", authRouter)
 app.use("/tweets", tweetsRouter)
 app.use("/upload", uploadRouter)
 app.use("/profile", profileRouter)
-
+app.use("/follow", followRouter)
 
 
 const start = async () => {
